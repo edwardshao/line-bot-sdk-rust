@@ -28,7 +28,7 @@ use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
 use std::pin::Pin;
-use std::rc::Rc;
+use std::sync::Arc;
 
 use futures::Future;
 use hyper;
@@ -40,7 +40,7 @@ pub struct ChannelAccessTokenApiClient<C: hyper::client::connect::Connect>
 where
     C: Clone + std::marker::Send + Sync + 'static,
 {
-    configuration: Rc<configuration::Configuration<C>>,
+    configuration: Arc<configuration::Configuration<C>>,
 }
 
 impl<C: hyper::client::connect::Connect> ChannelAccessTokenApiClient<C>
@@ -48,7 +48,7 @@ where
     C: Clone + std::marker::Send + Sync,
 {
     pub fn new(
-        configuration: Rc<configuration::Configuration<C>>,
+        configuration: Arc<configuration::Configuration<C>>,
     ) -> ChannelAccessTokenApiClient<C> {
         ChannelAccessTokenApiClient { configuration }
     }

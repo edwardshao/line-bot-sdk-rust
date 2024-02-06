@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-use std::rc::Rc;
+use std::sync::Arc;
 
 use super::configuration::Configuration;
 use hyper;
@@ -28,10 +28,10 @@ impl APIClient {
     where
         C: Clone + std::marker::Send + Sync + 'static,
     {
-        let rc = Rc::new(configuration);
+        let arc = Arc::new(configuration);
 
         APIClient {
-            line_module_api: Box::new(crate::apis::LineModuleApiClient::new(rc.clone())),
+            line_module_api: Box::new(crate::apis::LineModuleApiClient::new(arc.clone())),
         }
     }
 

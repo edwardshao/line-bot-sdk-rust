@@ -28,7 +28,7 @@ use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
 use std::pin::Pin;
-use std::rc::Rc;
+use std::sync::Arc;
 
 use futures::Future;
 use hyper;
@@ -40,14 +40,14 @@ pub struct MessagingApiApiClient<C: hyper::client::connect::Connect>
 where
     C: Clone + std::marker::Send + Sync + 'static,
 {
-    configuration: Rc<configuration::Configuration<C>>,
+    configuration: Arc<configuration::Configuration<C>>,
 }
 
 impl<C: hyper::client::connect::Connect> MessagingApiApiClient<C>
 where
     C: Clone + std::marker::Send + Sync,
 {
-    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> MessagingApiApiClient<C> {
+    pub fn new(configuration: Arc<configuration::Configuration<C>>) -> MessagingApiApiClient<C> {
         MessagingApiApiClient { configuration }
     }
 }
@@ -237,7 +237,7 @@ pub trait MessagingApiApi {
     fn reply_message(
         &self,
         reply_message_request: crate::models::ReplyMessageRequest,
-    ) -> Pin<Box<dyn Future<Output = Result<crate::models::ReplyMessageResponse, Error>>>>;
+    ) -> Pin<Box<dyn Future<Output = Result<crate::models::ReplyMessageResponse, Error>> + Send>>;
     fn rich_menu_batch(
         &self,
         rich_menu_batch_request: crate::models::RichMenuBatchRequest,
@@ -993,7 +993,7 @@ where
     fn reply_message(
         &self,
         reply_message_request: crate::models::ReplyMessageRequest,
-    ) -> Pin<Box<dyn Future<Output = Result<crate::models::ReplyMessageResponse, Error>>>> {
+    ) -> Pin<Box<dyn Future<Output = Result<crate::models::ReplyMessageResponse, Error>> + Send>> {
         let mut req = __internal_request::Request::new(
             hyper::Method::POST,
             "/v2/bot/message/reply".to_string(),
