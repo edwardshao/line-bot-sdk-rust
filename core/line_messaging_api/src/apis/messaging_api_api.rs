@@ -228,7 +228,7 @@ pub trait MessagingApiApi {
         &self,
         push_message_request: crate::models::PushMessageRequest,
         x_line_retry_key: Option<&str>,
-    ) -> Pin<Box<dyn Future<Output = Result<crate::models::PushMessageResponse, Error>>>>;
+    ) -> Pin<Box<dyn Future<Output = Result<crate::models::PushMessageResponse, Error>> + Send>>;
     fn push_messages_by_phone(
         &self,
         pnp_messages_request: crate::models::PnpMessagesRequest,
@@ -959,7 +959,7 @@ where
         &self,
         push_message_request: crate::models::PushMessageRequest,
         x_line_retry_key: Option<&str>,
-    ) -> Pin<Box<dyn Future<Output = Result<crate::models::PushMessageResponse, Error>>>> {
+    ) -> Pin<Box<dyn Future<Output = Result<crate::models::PushMessageResponse, Error>> + Send>> {
         let mut req = __internal_request::Request::new(
             hyper::Method::POST,
             "/v2/bot/message/push".to_string(),
