@@ -26,14 +26,12 @@
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct FlexCarousel {
-    #[serde(rename = "type")]
-    pub r#type: String,
     #[serde(rename = "contents")]
     pub contents: Vec<crate::models::FlexBubble>,
 }
 
 impl FlexCarousel {
-    pub fn new(r#type: String, contents: Vec<crate::models::FlexBubble>) -> FlexCarousel {
-        FlexCarousel { r#type, contents }
+    pub fn new(contents: Vec<crate::models::FlexBubble>) -> FlexCarousel {
+        FlexCarousel { contents }
     }
 }
