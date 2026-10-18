@@ -17,8 +17,8 @@
 use std::sync::Arc;
 
 use hyper::{client::HttpConnector, Client as hyperClient};
-use hyper_rustls::HttpsConnector;
-use hyper_rustls::HttpsConnectorBuilder;
+pub mod connector;
+use self::connector::{HttpsConnector, HttpsConnectorBuilder};
 use line_channel_access_token::apis::{
     configuration::Configuration as ChannelAccessTokenApiConfiguration, ChannelAccessTokenApiClient,
 };
